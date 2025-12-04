@@ -14,7 +14,7 @@ export default function LatestBeers() {
 	};
 
 	return (
-		<div className="flex grow flex-col justify-between rounded-xl bg-sky-200 px-4 lg:w-1/2">
+		<div className="flex grow flex-col justify-between rounded-xl bg-sky-200 px-4 lg:w-1/2 lg:min-w-2xl md:w-full">
 			<h2 className="mb-2 text-xl md:text-2xl pl-3 pt-3">Latest Beers</h2>
 			<BeerCardsQuery query={query}></BeerCardsQuery>
 			<div className="flex items-center pb-2 pt-6 pl-3">

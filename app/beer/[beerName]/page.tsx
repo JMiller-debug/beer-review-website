@@ -21,9 +21,9 @@ export default async function Page({
 		beer = await fetchBeer(query);
 	}
 	return (
-		<div>
+		<div className="lg:justify-items-center">
 			<h1 className={`mb-4 text-xl md:text-2xl`}>{stringBeerName}</h1>
-			<div className="w-full">
+			<div className="md:w-full lg:w-1/2 lg:min-w-2xl">
 				<BeerCard beer={beer} reviews={true}></BeerCard>
 			</div>
 		</div>

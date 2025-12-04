@@ -17,7 +17,7 @@ export function ReviewCard({
 		return (
 			<div className="border-t-2 border-gray-400">
 				<div className="text-2xl font-bold">Reviews</div>
-				<div className="flex flex-col min-w-lg max-w-prose">
+				<div className="flex flex-col md:max-w-full">
 					{reviews.map((review, i) => (
 						<div
 							className="bg-white border-4 rounded-xl border-sky-600 p-1 mb-1"
