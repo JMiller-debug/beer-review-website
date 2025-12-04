@@ -11,11 +11,11 @@ export function BeerName({ beerName }: { beerName: string | undefined }) {
 	return (
 		<div className="flex flex-row place-items-center">
 			<p className="flex-1/6 pl-2 pr-2 align-middle">Beer</p>
-			<label htmlFor="beerName" className="sr-only">
+			<label htmlFor="beer_name" className="sr-only">
 				Beer
 			</label>
 			<input
-				name="beerName"
+				name="beer_name"
 				className={clsx(
 					"flex-5/6 w-full mr-10 block rounded-md border border-gray-200 py-[9px] pl-2 text-sm outline-2 placeholder:text-gray-500",
 					{
@@ -25,6 +25,29 @@ export function BeerName({ beerName }: { beerName: string | undefined }) {
 				)}
 				placeholder="beer"
 				defaultValue={beerName}
+			/>
+		</div>
+	);
+}
+
+export function UserName({ userName }: { userName: string | undefined }) {
+	return (
+		<div className="flex flex-row place-items-center">
+			<p className="flex-1/6 pl-2 pr-2 align-middle">User</p>
+			<label htmlFor="username" className="sr-only">
+				User
+			</label>
+			<input
+				name="username"
+				className={clsx(
+					"flex-5/6 w-full mr-10 block rounded-md border border-gray-200 py-[9px] pl-2 text-sm outline-2 placeholder:text-gray-500",
+					{
+						"disabled opacity-75 pointer-events-none bg-gray-400/20":
+							userName !== undefined,
+					}
+				)}
+				placeholder="username"
+				defaultValue={userName}
 			/>
 		</div>
 	);
@@ -40,11 +63,11 @@ export function BeerReview() {
 		<div className="flex flex-row place-items-center">
 			<p className="flex-1/6 pl-2 pr-2 align-middle">Review</p>
 			<div className="flex-5/6 w-full mr-10 flex flex-col">
-				<label htmlFor="beerReview" className="sr-only">
+				<label htmlFor="comment" className="sr-only">
 					Review
 				</label>
 				<textarea
-					name="beerReview"
+					name="comment"
 					placeholder="Your review here"
 					className="block rounded-md border border-gray-200 py-[9px] pl-2 text-sm outline-2 placeholder:text-gray-500 resize-y"
 					maxLength={2000}
@@ -66,7 +89,7 @@ export function BeerScore() {
 	const [value, setValue] = React.useState(5);
 	const [inputValue, setInputValue] = React.useState("5");
 
-	const handleChange = (value) => {
+	const handleChange = (value: any) => {
 		if (isNaN(Number(value))) return;
 
 		setValue(value);
@@ -77,9 +100,13 @@ export function BeerScore() {
 		<div className="flex flex-row place-items-center">
 			<Slider
 				classNames={{
-					filler: "bg-green-200",
+					filler: "bg-sky-500",
 					base: "flex-row",
 					trackWrapper: "flex-5/6 mr-10",
+					// Below is necessary to keep consistent styling for the background
+					// Was very hard to actaully find this out
+					track:
+						"bg-gray-300/50 data-[fill-start=true]:border-l-sky-500 data-[fill-end=false]:border-r-gray-300/0",
 					label: "text-medium",
 					value: "text-medium",
 					labelWrapper: "flex flex-col flex-1/6 pl-2 pr-2 !place-items-start",
@@ -106,6 +133,7 @@ export function BeerScore() {
 						label: "10",
 					},
 				]}
+				color={undefined}
 				label="Score"
 				maxValue={10}
 				minValue={0}
@@ -113,6 +141,7 @@ export function BeerScore() {
 				size="md"
 				step={0.1}
 				value={value}
+				name="score"
 				onChange={handleChange}
 			/>
 		</div>

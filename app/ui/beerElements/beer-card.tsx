@@ -33,7 +33,7 @@ export function BeerCard({
 		return (
 			<div
 				className={clsx(
-					"relative overflow-hidden rounded-xl bg-sky-600/50 m-2 border-4 border-cyan-300/75 shadow-sm",
+					"relative overflow-hidden rounded-xl bg-sky-600/50 m-2 border-4 border-cyan-300/75 shadow-sm max-w-full",
 					{
 						"hover:bg-cyan-300/75 hover:border-8": reviews === false,
 					}

@@ -11,11 +11,15 @@ export default async function Page({
 	params: Promise<{ beerName: string }>;
 }) {
 	const { beerName } = await params;
-	const stringBeerName = beerName.replace(/%20/g, " ");
-	const query: beerParameters = {
-		beer_name: stringBeerName.replace(/%20/g, " "),
-	};
-	const beer = await fetchBeer(query);
+	let beer = undefined;
+	let stringBeerName = "";
+	if (beerName !== undefined) {
+		stringBeerName = beerName.replace(/%20/g, " ");
+		const query: beerParameters = {
+			name: stringBeerName.replace(/%20/g, " "),
+		};
+		beer = await fetchBeer(query);
+	}
 	return (
 		<div>
 			<h1 className={`mb-4 text-xl md:text-2xl`}>{stringBeerName}</h1>

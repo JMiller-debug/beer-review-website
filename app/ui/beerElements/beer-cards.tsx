@@ -10,7 +10,7 @@ export function BeerCards({ beers }: { beers: Beers[] }) {
 	return (
 		// Pagination
 		<div className="">
-			<div className="">
+			<div className="max-w-full">
 				{beers.map((beer, i) => {
 					return (
 						<div key={i}>

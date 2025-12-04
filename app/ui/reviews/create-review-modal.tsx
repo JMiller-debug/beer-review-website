@@ -1,9 +1,15 @@
-"use client";
+// "use client";
 import { DialogPanel, DialogTitle } from "@headlessui/react";
 import { SetStateAction, Dispatch } from "react";
 import { useParams } from "next/navigation";
-import { BeerName, BeerReview, BeerScore } from "./reviewForm/review-form";
-
+import {
+	BeerName,
+	BeerReview,
+	BeerScore,
+	UserName,
+} from "./reviewForm/review-form";
+import { useRouter } from "next/navigation";
+import { reviewPostBody, postReview } from "@/app/api/external/reviewAPI";
 /*
  Cancel/Post review button elements for the dialog box popup that the user uses to create a review
 */
@@ -41,13 +47,21 @@ export default function CreateReviewModal({
 	setOpen: Dispatch<SetStateAction<boolean>>;
 	beerName?: string | undefined;
 }) {
-	function handleSubmit(e: any) {
+	const router = useRouter();
+
+	async function handleSubmit(e: any) {
 		e.preventDefault();
 		const form = e.target;
 		const formData = new FormData(form);
-		const beerName = String(formData.get("beerName"));
-		console.log(beerName);
-		console.log("Submited Review");
+		// const body: reviewPostBody = {};
+		const body: reviewPostBody = {
+			beer_name: String(formData.get("beer_name")),
+			username: String(formData.get("username")),
+			score: Number(formData.get("score")),
+			comment: String(formData.get("comment")),
+		};
+		await postReview(body);
+		router.refresh();
 	}
 
 	if (beerName === undefined) {
@@ -75,6 +89,7 @@ export default function CreateReviewModal({
 					</div>
 					<form method="post" onSubmit={handleSubmit}>
 						<div className="flex flex-col gap-4 jus">
+							<UserName userName={"Ameretto Miller"}></UserName>
 							<BeerName beerName={beerName}></BeerName>
 							<BeerScore></BeerScore>
 							<BeerReview></BeerReview>

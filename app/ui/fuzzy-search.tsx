@@ -38,8 +38,8 @@ export default function FuzzySearch({ beers }: { beers: Beers[] }) {
 	}, 250);
 
 	return (
-		<div className="relative flex flex-1 shrink-0 mb-2 justify-start flex-col">
-			<div className="relative">
+		<div className="relative flex flex-1 shrink-0 mb-2 justify-start flex-col lg">
+			<div className="lg:w-1/2">
 				<label htmlFor="search" className="sr-only">
 					Search
 				</label>
@@ -52,7 +52,7 @@ export default function FuzzySearch({ beers }: { beers: Beers[] }) {
 					}}
 				/>
 			</div>
-			<div>
+			<div className="lg:w-1/2">
 				<BeerCards beers={searchData}></BeerCards>
 			</div>
 		</div>
