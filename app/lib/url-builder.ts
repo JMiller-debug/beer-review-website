@@ -3,10 +3,25 @@
 // https://dev.to/alexanderop/building-a-type-safe-api-url-builder-in-typescript-a-pokemon-api-example-3mk5
 export type API = "beers" | "breweries" | "reviews";
 
+type baseParamters = {
+	offset?: number;
+	limit?: number;
+	orderby?: string;
+	order?: string;
+	identifier?: string;
+	name?: string;
+};
+export type brewerieParameters = baseParamters;
+export type beerParameters = baseParamters;
+export type reviewParameters = baseParamters & {
+	beer_name?: string;
+	beer_id?: string;
+	username?: string;
+};
 interface APIAttributes {
-	beers: {};
-	breweries: {};
-	reviews: {};
+	beers: beerParameters;
+	breweries: brewerieParameters;
+	reviews: reviewParameters;
 }
 
 interface FetchOptions {
@@ -16,18 +31,15 @@ interface FetchOptions {
 }
 
 export interface SegmentTypes {
-	beers: "beers";
-	breweries: "breweries";
-	reviews: "reviews";
+	beers: "list-beers";
+	breweries: "";
+	reviews: "";
 }
 
-export class URLBuilder<
-	APIType extends API,
-	SegmentInterface extends SegmentTypes
-> {
+export class URLBuilder<T extends API> {
 	private baseURL: string;
 	private segments: string[] = [];
-	queryParameters: Partial<APIAttributes[APIType]> = {};
+	private queryParameters: Partial<APIAttributes[T]> = {};
 	constructor(baseURL: string) {
 		this.baseURL = baseURL;
 	}
@@ -47,16 +59,14 @@ export class URLBuilder<
 	}
 
 	// Add resource and query parameters
-	addResource(
-		resource: SegmentInterface[APIType]
-	): URLBuilder<APIType, SegmentInterface> {
+	addResource(resource: SegmentTypes[T]): URLBuilder<T> {
 		this.segments.push(resource);
 		return this;
 	}
-	addQueryParam<K extends keyof APIAttributes[APIType]>(
+	addQueryParam<K extends keyof APIAttributes[T]>(
 		key: K,
-		value: APIAttributes[APIType][K]
-	): URLBuilder<APIType, SegmentInterface> {
+		value: APIAttributes[T][K]
+	): URLBuilder<T> {
 		this.queryParameters[key] = value;
 		return this;
 	}

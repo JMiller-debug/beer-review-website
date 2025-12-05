@@ -1,7 +1,7 @@
 "use server";
 
 import { Beers, beersEndpoint } from "@/app/lib/definitions";
-import { URLBuilder, API, SegmentTypes } from "@/app/lib/url-builder";
+import { URLBuilder, beerParameters } from "@/app/lib/url-builder";
 import { formatter } from "@/app/lib/definitions";
 /* Beer API
 
@@ -15,36 +15,9 @@ me to query my api easily and cut down on repeated code when I implement the
 brewery and review endpoints.
 
 */
-type beerAPI = "base" | "list-beers";
-
-export type beerParameters = {
-	offset?: number;
-	limit?: number;
-	orderby?: string;
-	order?: string;
-	identifier?: string;
-	name?: string;
-};
-
-interface beerAPIAttributes {
-	base: beerParameters;
-	"list-beers": null;
-}
-interface beerSegments {
-	base: "";
-	"list-beers": "list-beers";
-}
-
-class beerURLBuilder<
-	APIType extends API & beerAPI,
-	SegmentInterface extends SegmentTypes & beerSegments
-> extends URLBuilder<APIType, SegmentInterface> {
-	queryParameters: Partial<beerAPIAttributes[APIType]> = {};
-}
-
 // Fetch a list of beers from the dataserver
 export async function fetchBeers(queries: beerParameters | undefined) {
-	const beerAPI = new beerURLBuilder<"base", beerSegments>(beersEndpoint);
+	const beerAPI = new URLBuilder<"beers">(beersEndpoint);
 	if (queries !== undefined) {
 		const queryKeys = Object.keys(queries) as Array<keyof beerParameters>;
 		queryKeys.forEach((key) => {
@@ -64,7 +37,7 @@ export async function fetchBeers(queries: beerParameters | undefined) {
 
 // Fetch a singular beer from the dataserver by passing in its name as a query paramter
 export async function fetchBeer(params: beerParameters) {
-	const beerAPI = new beerURLBuilder<"base", beerSegments>(beersEndpoint);
+	const beerAPI = new URLBuilder<"beers">(beersEndpoint);
 	if (params.name !== undefined) {
 		beerAPI.addQueryParam("name", params.name);
 		const data = await beerAPI.get().then((response) => response.json());
@@ -77,7 +50,7 @@ export async function fetchBeer(params: beerParameters) {
 
 // Fetch a list of beer names from the dataserver
 export async function listBeers() {
-	const beerAPI = new beerURLBuilder<"list-beers", beerSegments>(beersEndpoint);
+	const beerAPI = new URLBuilder<"beers">(beersEndpoint);
 	beerAPI.addResource("list-beers");
 	const data = await beerAPI.get().then((response) => response.json());
 	return data;

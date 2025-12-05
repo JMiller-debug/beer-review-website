@@ -1,5 +1,6 @@
 import { BeerCard } from "../../ui/beerElements/beer-card";
-import { beerParameters, fetchBeer } from "../../api/external/beerAPI";
+import { fetchBeer } from "../../api/external/beerAPI";
+import { beerParameters } from "@/app/lib/url-builder";
 /*
 Beer [beerName] page. This page is generated when you click on a beer and is to
 show you specific information about a beer. Including score and reviews.

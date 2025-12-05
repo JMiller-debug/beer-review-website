@@ -1,4 +1,4 @@
-import { beerParameters } from "@/app/api/external/beerAPI";
+import { beerParameters } from "../lib/url-builder";
 import BeerCardsQuery from "../ui/beerElements/beer-cards";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 

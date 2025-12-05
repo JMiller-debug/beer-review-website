@@ -1,6 +1,6 @@
 "use server";
 import { reviewsEndpoint } from "@/app/lib/definitions";
-import { URLBuilder, API, SegmentTypes } from "@/app/lib/url-builder";
+import { URLBuilder, reviewParameters } from "@/app/lib/url-builder";
 
 /* Review API
 
@@ -14,18 +14,6 @@ me to query my api easily and cut down on repeated code when I implement the
 brewery and review endpoints.
 
 */
-type reviewAPI = "base";
-
-export type reviewParameters = {
-	offset?: number;
-	limit?: number;
-	orderby?: string;
-	order?: string;
-	identifier?: string;
-	beer_name?: string;
-	beer_id?: string;
-	username?: string;
-};
 
 export type reviewPostBody = {
 	username: string;
@@ -33,25 +21,9 @@ export type reviewPostBody = {
 	comment: string;
 	beer_name: string;
 };
-interface reviewAPIAttributes {
-	base: reviewParameters;
-}
-interface reviewSegments {
-	base: "";
-}
-
-class reviewURLBuilder<
-	APIType extends API & reviewAPI,
-	SegmentInterface extends SegmentTypes & reviewSegments
-> extends URLBuilder<APIType, SegmentInterface> {
-	queryParameters: Partial<reviewAPIAttributes[APIType]> = {};
-}
-
 // Fetch a list of reviews from the dataserver
 export async function fetchReviews(queries: reviewParameters | undefined) {
-	const reviewAPI = new reviewURLBuilder<"base", reviewSegments>(
-		reviewsEndpoint
-	);
+	const reviewAPI = new URLBuilder<"reviews">(reviewsEndpoint);
 	if (queries !== undefined) {
 		const queryKeys = Object.keys(queries) as Array<keyof reviewParameters>;
 		queryKeys.forEach((key) => {
@@ -65,9 +37,7 @@ export async function fetchReviews(queries: reviewParameters | undefined) {
 
 // Fetch a singular review from the dataserver by passing in its name as a query paramter
 export async function fetchReview(params: reviewParameters) {
-	const reviewAPI = new reviewURLBuilder<"base", reviewSegments>(
-		reviewsEndpoint
-	);
+	const reviewAPI = new URLBuilder<"reviews">(reviewsEndpoint);
 	if (params.name !== undefined) {
 		reviewAPI.addQueryParam("identifier", params.identifier);
 		const data = await reviewAPI.get().then((response) => response.json());
@@ -76,9 +46,7 @@ export async function fetchReview(params: reviewParameters) {
 }
 
 export async function postReview(body: reviewPostBody) {
-	const reviewAPI = new reviewURLBuilder<"base", reviewSegments>(
-		reviewsEndpoint
-	);
+	const reviewAPI = new URLBuilder<"reviews">(reviewsEndpoint);
 	const data = await reviewAPI.post(body).then((response) => response.json());
 	return data;
 }

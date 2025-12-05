@@ -9,7 +9,6 @@ export async function GET(
 	{ params }: { params: Promise<{ beerName: string }> }
 ) {
 	const { beerName } = await params;
-	// console.log(`${imageEndpoint}/${params.path.join("/")}`);
 	const url = `${imageEndpoint}/${beerName}`;
 
 	const res = await fetch(url, {

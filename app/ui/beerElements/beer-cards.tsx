@@ -1,5 +1,5 @@
 import { Beers } from "@/app/lib/definitions";
-import { beerParameters } from "@/app/api/external/beerAPI";
+import { beerParameters } from "@/app/lib/url-builder";
 import { fetchBeers } from "@/app/api/external/beerAPI";
 import { BeerCard } from "@/app/ui/beerElements/beer-card";
 
