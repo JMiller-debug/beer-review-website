@@ -1,9 +1,10 @@
+"use client";
 import { Beers } from "@/app/lib/definitions";
-import { formatter } from "@/app/lib/definitions";
 import { ReviewCard } from "../reviews/reviews";
 import Link from "next/link";
 import clsx from "clsx";
-
+import Image from "next/image";
+import { fallBackBeer } from "@/app/lib/definitions";
 /*
  Beer Card Element renders a single beer. Can be told to show or hide the review
  card
@@ -15,6 +16,8 @@ export function BeerCard({
 	beer: Beers | undefined;
 	reviews?: boolean;
 }) {
+	let width = reviews ? 200 : 125;
+
 	function reveiewCardEval() {
 		if (reviews) {
 			if (beer !== undefined && beer.reviews.length > 0) {
@@ -24,12 +27,16 @@ export function BeerCard({
 			}
 		}
 	}
+	const imageLoader = ({ src }: { src: string }) => {
+		return `${src}?w=${width}`;
+	};
 
 	if (beer !== undefined) {
 		const link = {
 			name: "beer",
 			href: "/beer/" + beer.name,
 		};
+		const imageUrl = `/api/images/${beer.name.replace(/ /g, "-") + ".webp"}`;
 		return (
 			<div
 				className={clsx(
@@ -58,13 +65,24 @@ export function BeerCard({
 										{beer.company}
 									</p>
 									<p className="hidden text-sm text-gray-500 sm:block">
-										Last Updated {formatter.format(new Date(beer.last_updated))}
+										Last Updated {beer.stringLastUpdated}
 									</p>
 								</div>
 							</div>
 							<p className={`truncate text-sm font-medium md:text-base`}>
 								{beer.score}/10
 							</p>
+							<Image
+								loader={imageLoader}
+								src={imageUrl ? imageUrl : fallBackBeer}
+								alt="Picture of the beer"
+								width={width}
+								height={width}
+								onError={(event) => {
+									(event.currentTarget as HTMLImageElement).srcset =
+										fallBackBeer;
+								}}
+							></Image>
 						</div>
 						{reveiewCardEval()}
 						{/* {beer.reviews.length > 0 && reviews ? (

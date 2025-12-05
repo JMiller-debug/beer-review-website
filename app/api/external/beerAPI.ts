@@ -1,8 +1,8 @@
 "use server";
 
-import { beersEndpoint } from "@/app/lib/definitions";
+import { Beers, beersEndpoint } from "@/app/lib/definitions";
 import { URLBuilder, API, SegmentTypes } from "@/app/lib/url-builder";
-
+import { formatter } from "@/app/lib/definitions";
 /* Beer API
 
 The point of this is to try and extend the implementation of the URL builder
@@ -53,6 +53,12 @@ export async function fetchBeers(queries: beerParameters | undefined) {
 	}
 
 	const data = await beerAPI.get().then((response) => response.json());
+	data.forEach((element: Beers, idx: number) => {
+		data[idx].stringLastUpdated = formatter.format(
+			new Date(element.last_updated)
+		);
+	});
+
 	return data;
 }
 
@@ -62,6 +68,9 @@ export async function fetchBeer(params: beerParameters) {
 	if (params.name !== undefined) {
 		beerAPI.addQueryParam("name", params.name);
 		const data = await beerAPI.get().then((response) => response.json());
+		data[0].stringLastUpdated = formatter.format(
+			new Date(data[0].last_updated)
+		);
 		return data[0];
 	}
 }

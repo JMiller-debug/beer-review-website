@@ -14,7 +14,7 @@ me to query my api easily and cut down on repeated code when I implement the
 brewery and review endpoints.
 
 */
-type reviewAPI = "base" | "list-reviews";
+type reviewAPI = "base";
 
 export type reviewParameters = {
 	offset?: number;

@@ -57,8 +57,6 @@ export class URLBuilder<
 		key: K,
 		value: APIAttributes[APIType][K]
 	): URLBuilder<APIType, SegmentInterface> {
-		console.log("key is: ", key);
-		console.log("value: ", value);
 		this.queryParameters[key] = value;
 		return this;
 	}
@@ -75,7 +73,6 @@ export class URLBuilder<
 		if (queryParams) {
 			url += `?${queryParams}`;
 		}
-		console.log(url);
 		return url;
 	}
 

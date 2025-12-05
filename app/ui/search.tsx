@@ -15,7 +15,6 @@ export default function Search({ placeholder }: { placeholder: string }) {
 	function handleSubmit(e: any) {
 		e.preventDefault();
 		const params = new URLSearchParams(searchParams);
-		console.log(params);
 		const form = e.target;
 		const formData = new FormData(form);
 		if (
@@ -30,11 +29,9 @@ export default function Search({ placeholder }: { placeholder: string }) {
 			}
 			replace(`${pathname}?${params.toString()}`);
 		} else {
-			console.log("Else Path");
 			params.delete("beer_name");
 			replace(`${pathname}`);
 		}
-		// console.log(formData.get("beerName"));
 	}
 
 	return (

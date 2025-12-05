@@ -10,6 +10,9 @@ const nextConfig: NextConfig = {
 			},
 		];
 	},
+	images: {
+		localPatterns: [{ pathname: "/api/images/**" }, { pathname: "/static/**" }],
+		formats: ["image/webp", "image/avif"],
+	},
 };
-
 export default nextConfig;

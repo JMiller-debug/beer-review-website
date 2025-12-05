@@ -5,7 +5,8 @@ export const APIEndpoint = "http://localhost:8000";
 export const beersEndpoint = APIEndpoint + "/beers";
 export const breweriesEndpoint = APIEndpoint + "/breweries";
 export const reviewsEndpoint = APIEndpoint + "/reviews";
-
+export const imageEndpoint = APIEndpoint + "/images";
+export const fallBackBeer = "/static/beer-not-found.png";
 /* 
 Generic type definitions
 */
@@ -25,6 +26,7 @@ export type Beers = {
 	company: string;
 	score: number;
 	last_updated: Timestamp;
+	stringLastUpdated?: string;
 	date_created: Timestamp;
 	reviews: [Reviews];
 };
