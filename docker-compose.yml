@@ -1,0 +1,73 @@
+services:
+  db:
+    restart: always
+    container_name: beer-review-db
+    ports:
+      - 5432:5432
+    volumes:
+     - ./db_data:/var/lib/postgresql/
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: beer_review
+      PGUSER: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+
+  dataserver:
+    depends_on:
+      - db
+    develop:
+      watch:
+        - action: sync
+          path: ./beer-review-dataserver/
+          target: /app
+          ignore:
+            - .venv/
+        - action: rebuild
+          path: ./beer-review-dataserver/pyproject.toml
+
+    restart: always
+    container_name: beer-review-dataserver
+    ports:
+      - 8000:8000
+    # image: current:latest
+    build:
+      context: ./beer-review-dataserver/
+    environment:
+      WATCHFILES_FORCE_POLLING: true
+      host: "0.0.0.0"
+      port: 8000
+      log_level: info
+      postgres_uri: postgresql+asyncpg://postgres:postgres@db:5432/beer_review
+
+  website:
+    container_name: beer-review-website
+    develop:
+      watch: 
+      - action: sync
+        path: ./beer-review-website/
+        target: /app
+        # initial_sync: true
+        ignore: node_modules/
+      - action: rebuild
+        path: package.json
+      - action: rebuild
+        path: pnpm-lock.json
+    build:
+      context: ./beer-review-website/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_URL=http://dataserver:8000
+    depends_on:
+      - dataserver
+
+networks:
+  beer-review-network:
+    external: true

@@ -28,6 +28,21 @@ building up a catalog of beers we liked and disliked. In addition it was to be a
 good place to learn about next.js and tailwindcss for use in future job searches
 to supplement my angular knowledge.
 
+## Deployment via docker-compose
+
+You are able to deploy the whole suite of apps (Database, dataserver and website) via docker compose. It also includes a development mode that re-syncs the containers content to update when changes are made.
+
+To do this, symlink the docker-compose file found in the beer-review-website directory to the top level directory that holds both repos (This is due to how the paths are constructed. Feel free to change paths in the docker-compose script if you want).
+
+Then once you are in that directroy run:
+```bash
+$ docker-compose up --build # for the 'production' version
+# or
+$ docker-compose watch # for the development version
+```
+
+After this, you can navigate to `localhost:3000/dashboard` and view the website as normal.
+
 ## Current State
 
 The current state of the project is very early days, it has basic navigation and
