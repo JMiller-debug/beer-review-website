@@ -1,6 +1,6 @@
 import { Timestamp } from "next/dist/server/lib/cache-handlers/types";
 
-export const APIEndpoint = "http://localhost:8000";
+export const APIEndpoint = process.env.BACKEND_URL;
 
 export const beersEndpoint = APIEndpoint + "/beers";
 export const breweriesEndpoint = APIEndpoint + "/breweries";

@@ -12,7 +12,7 @@ library to perform the fuzzy search
 */
 
 export default function FuzzySearch({ beers }: { beers: Beers[] }) {
-	const [searchData, setSearchData] = useState(beers);
+	const [searchData, setSearchData] = useState(beers.slice(0, 5));
 	const searchItem = useDebouncedCallback((query) => {
 		if (!query) {
 			setSearchData(beers);
@@ -26,8 +26,8 @@ export default function FuzzySearch({ beers }: { beers: Beers[] }) {
 		const result = fuse.search(query);
 		const finalResult: Beers[] = [];
 		if (result.length) {
-			result.forEach((item) => {
-				if (item.item !== undefined) {
+			result.forEach((item, idx) => {
+				if (item.item !== undefined && idx < 5) {
 					finalResult.push(item.item);
 				}
 			});

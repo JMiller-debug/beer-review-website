@@ -28,7 +28,7 @@ export function BeerCard({
 		}
 	}
 	const imageLoader = ({ src }: { src: string }) => {
-		return `${src}?w=${width}`;
+		return `${src}?w=${width}?h=${width}`;
 	};
 
 	if (beer !== undefined) {
@@ -40,7 +40,7 @@ export function BeerCard({
 		return (
 			<div
 				className={clsx(
-					"relative overflow-hidden rounded-xl bg-sky-600/50 m-2 border-4 border-cyan-300/75 shadow-sm max-w-full",
+					`relative overflow-hidden rounded-xl bg-sky-600/50 m-2  border-4 border-cyan-300/75 shadow-sm max-w-full`,
 					{
 						"hover:bg-cyan-300/75 hover:border-8": reviews === false,
 					}
@@ -51,12 +51,12 @@ export function BeerCard({
 					href={link.href}
 					className={clsx({ "disabled pointer-events-none": reviews })}
 				>
-					<div className="bg-white px-6">
+					<div className={`bg-white px-6 h-[${width}px]`}>
 						<div
 							key={beer.id}
-							className="flex flex-row items-center justify-between py-4"
+							className="flex flex-row items-center justify-between"
 						>
-							<div className="flex items-center">
+							<div className="flex-col">
 								<div className="min-w-0">
 									<p className="truncate text-sm font-semibold md:text-base">
 										{beer.name}
@@ -69,20 +69,23 @@ export function BeerCard({
 									</p>
 								</div>
 							</div>
-							<p className={`truncate text-sm font-medium md:text-base`}>
+							<p className="text-sm font-medium md:text-base">
 								{beer.score}/10
 							</p>
-							<Image
-								loader={imageLoader}
-								src={imageUrl ? imageUrl : fallBackBeer}
-								alt="Picture of the beer"
-								width={width}
-								height={width}
-								onError={(event) => {
-									(event.currentTarget as HTMLImageElement).srcset =
-										fallBackBeer;
-								}}
-							></Image>
+							<div className="flex-none relative h-full">
+								<Image
+									loader={imageLoader}
+									src={imageUrl ? imageUrl : fallBackBeer}
+									alt="Picture of the beer"
+									width={width}
+									height={width}
+									onError={(event) => {
+										(event.currentTarget as HTMLImageElement).srcset =
+											fallBackBeer;
+									}}
+									className={`aspect-square object-scale-down`}
+								></Image>
+							</div>
 						</div>
 						{reveiewCardEval()}
 						{/* {beer.reviews.length > 0 && reviews ? (
