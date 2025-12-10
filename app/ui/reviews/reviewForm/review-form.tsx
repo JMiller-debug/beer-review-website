@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useState } from "react";
-import { Slider, Tooltip } from "@heroui/react";
+import { Slider } from "@heroui/react";
 import React from "react";
 
 /* 

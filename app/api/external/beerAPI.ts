@@ -3,18 +3,17 @@
 import { Beers, beersEndpoint } from "@/app/lib/definitions";
 import { URLBuilder, beerParameters } from "@/app/lib/url-builder";
 import { formatter } from "@/app/lib/definitions";
+import { imageEndpoint } from "@/app/lib/definitions";
+
+import { NextRequest, NextResponse } from "next/server";
 /* Beer API
+ */
 
-The point of this is to try and extend the implementation of the URL builder
-class.
+export type beerPostBody = {
+	name: string;
+	company: string;
+};
 
-While I got it working, I am not happy with the typing errors that pop up. 
-
-The idea was to build a type safe version of the url builder class that allows
-me to query my api easily and cut down on repeated code when I implement the
-brewery and review endpoints.
-
-*/
 // Fetch a list of beers from the dataserver
 export async function fetchBeers(queries: beerParameters | undefined) {
 	const beerAPI = new URLBuilder<"beers">(beersEndpoint);
@@ -54,4 +53,38 @@ export async function listBeers() {
 	beerAPI.addResource("list-beers");
 	const data = await beerAPI.get().then((response) => response.json());
 	return data;
+}
+
+export async function postBeer(body: beerPostBody) {
+	const beerAPI = new URLBuilder<"beers">(beersEndpoint);
+	const data = await beerAPI.post(body).then((response) => response.json());
+	return data;
+}
+
+export async function postImage(beerName: String, imageData: FormData) {
+	const url = encodeURI(`${imageEndpoint}/?beer_name=${beerName}`);
+	console.log(url);
+	// const formData = new FormData();
+	// formData.append("file", imageData.get("beerImage"));
+	const req = {
+		method: "POST",
+		// Forward headers if needed
+		body: imageData,
+	};
+	console.log(req);
+	const res = await fetch(url, req);
+	console.log(res);
+	// if (!res.ok) {
+	// 	return NextResponse.json(
+	// 		{ error: "The request for this image failed" },
+	// 		{ status: res.status }
+	// 	);
+	// }
+	// return new NextResponse(null, {
+	// 	status: 200,
+	// 	headers: {
+	// 		"Content-Type":
+	// 			res.headers.get("Content-Type") || "application/octet-stream",
+	// 	},
+	// });
 }
