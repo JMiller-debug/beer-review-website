@@ -70,7 +70,7 @@ export function BeerCard({
 								</div>
 							</div>
 							<p className="text-sm font-medium md:text-base">
-								{beer.score}/10
+								{beer.score.toFixed(1)}/10
 							</p>
 							<div className="flex-none relative h-full">
 								<Image

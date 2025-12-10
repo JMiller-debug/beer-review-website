@@ -4,15 +4,6 @@ import { URLBuilder, reviewParameters } from "@/app/lib/url-builder";
 
 /* Review API
 
-The point of this is to try and extend the implementation of the URL builder
-class.
-
-While I got it working, I am not happy with the typing errors that pop up. 
-
-The idea was to build a type safe version of the url builder class that allows
-me to query my api easily and cut down on repeated code when I implement the
-brewery and review endpoints.
-
 */
 
 export type reviewPostBody = {

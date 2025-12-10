@@ -15,7 +15,7 @@ export default function FuzzySearch({ beers }: { beers: Beers[] }) {
 	const [searchData, setSearchData] = useState(beers.slice(0, 5));
 	const searchItem = useDebouncedCallback((query) => {
 		if (!query) {
-			setSearchData(beers);
+			setSearchData(beers.slice(0, 5));
 			return;
 		}
 		const options = {
@@ -38,8 +38,8 @@ export default function FuzzySearch({ beers }: { beers: Beers[] }) {
 	}, 250);
 
 	return (
-		<div className="relative flex flex-1 shrink-0 mb-2 justify-start flex-col lg">
-			<div className="lg:max-w-1/2 lg:min-w-2xl">
+		<div className="flex flex-1 shrink-0 mb-2 justify-start flex-col lg">
+			<div className="relative lg:max-w-1/2 lg:min-w-2xl">
 				<label htmlFor="search" className="sr-only">
 					Search
 				</label>
