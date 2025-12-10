@@ -1,16 +1,21 @@
+"use client";
 import { SetStateAction, Dispatch } from "react";
-import { BeerName, CompanyName, ImageUpload } from "./beerForm/beer-form";
+import { BeerName, CompanyName } from "./beerForm/beer-form";
+import { ImageUpload } from "./beerForm/file-pond-upload";
 import { useRouter } from "next/navigation";
 import { FormSubmitButtons } from "../modal";
 import { beerPostBody, postBeer, postImage } from "@/app/api/external/beerAPI";
+import { useState } from "react";
 /*
- Cancel/Post review button elements for the dialog box popup that the user uses to create a review
+ The content to pass to the modal for creating a review
 */
 export default function BeerFormContent({
 	setOpen,
 }: {
 	setOpen: Dispatch<SetStateAction<boolean>>;
 }) {
+	const [files, setFiles] = useState<File[]>([]);
+	console.log(files);
 	const router = useRouter();
 	async function handleSubmit(e: any) {
 		e.preventDefault();
@@ -22,9 +27,12 @@ export default function BeerFormContent({
 			company: String(formData.get("company")),
 		};
 		const beerName = String(formData.get("beer_name"));
-		// const image = formData.get("beerImage");
-		await postBeer(body);
-		await postImage(beerName, formData);
+		const data = new FormData();
+		if (files !== null) {
+			data.set("file", files[0]);
+			await postBeer(body);
+			await postImage(beerName, data);
+		}
 		router.refresh();
 	}
 	return (
@@ -32,7 +40,7 @@ export default function BeerFormContent({
 			<div className="flex flex-col gap-4 jus">
 				<BeerName></BeerName>
 				<CompanyName></CompanyName>
-				<ImageUpload></ImageUpload>
+				<ImageUpload files={files} setFiles={setFiles}></ImageUpload>
 				<FormSubmitButtons setOpen={setOpen}></FormSubmitButtons>
 			</div>
 		</form>

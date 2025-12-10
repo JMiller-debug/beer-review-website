@@ -15,7 +15,7 @@ export default function FuzzySearch({ beers }: { beers: Beers[] }) {
 	const [searchData, setSearchData] = useState(beers.slice(0, 5));
 	const searchItem = useDebouncedCallback((query) => {
 		if (!query) {
-			setSearchData(beers);
+			setSearchData(beers.slice(0, 5));
 			return;
 		}
 		const options = {

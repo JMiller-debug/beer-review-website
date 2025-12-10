@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import { reviewPostBody, postReview } from "@/app/api/external/reviewAPI";
 import { FormSubmitButtons } from "../modal";
 /*
- Cancel/Post review button elements for the dialog box popup that the user uses to create a review
+ The content to pass to the modal for creating a review
 */
 export default function ReviewFormContent({
 	setOpen,
