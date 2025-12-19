@@ -5,38 +5,70 @@ import Fuse from "fuse.js";
 import { Beers } from "../lib/definitions";
 import { BeerCards } from "./beerElements/beer-cards";
 import { useDebouncedCallback } from "use-debounce";
-
+import { Pagination } from "@heroui/react";
 /*
 Fuzzy search element to query beers list at the moment. Uses fuse.js as the
 library to perform the fuzzy search
+
+Also implements client side pagination of the results. This could be slow if the
+number of beers that we have get large
+
+Currently, the fuzzy search sets the search data and the pagination sets the
+current page. If you start fuzzy searching, you go back to the first page. If
+you paginate, you set the currentPage and then update the data to support moving
+through your current search data
 */
+const PAGE_LENGTH = 5;
 
 export default function FuzzySearch({ beers }: { beers: Beers[] }) {
-	const [searchData, setSearchData] = useState(beers.slice(0, 5));
+	const [totalPages, setTotalPages] = useState(
+		Math.ceil(beers.length / PAGE_LENGTH)
+	);
+	const [searchData, setSearchData] = useState(beers);
+	const [currentPage, setPage] = useState(1);
+	const [displayData, setDisplayData] = useState(
+		searchData.slice(0, PAGE_LENGTH)
+	);
+
+	// Set up the fuzzy search and save the results to searchData
 	const searchItem = useDebouncedCallback((query) => {
+		setPage(1);
 		if (!query) {
-			setSearchData(beers.slice(0, 5));
-			return;
-		}
-		const options = {
-			threshold: 0.4,
-			keys: ["name", "company"],
-		};
-		const fuse = new Fuse(beers, options);
-		const result = fuse.search(query);
-		const finalResult: Beers[] = [];
-		if (result.length) {
-			result.forEach((item, idx) => {
-				if (item.item !== undefined && idx < 5) {
-					finalResult.push(item.item);
-				}
-			});
-			setSearchData(finalResult);
+			setSearchData(beers);
 		} else {
-			setSearchData([]);
+			const options = {
+				threshold: 0.4,
+				keys: ["name", "company"],
+			};
+			const fuse = new Fuse(beers, options);
+			const result = fuse.search(query);
+			const finalResult: Beers[] = [];
+			if (result.length) {
+				result.forEach((match) => {
+					finalResult.push(match.item);
+				});
+				setSearchData(finalResult);
+			} else {
+				setSearchData([]);
+			}
 		}
+		updateDisplayData();
 	}, 250);
 
+	// Set the current page and then update display data
+	function handlePagination(page: number): void {
+		setPage(page);
+		updateDisplayData();
+	}
+
+	// update the total number of pages and then update display data
+	// I believe there is a race condition between searching and updating total pages
+	const updateDisplayData = useDebouncedCallback(() => {
+		const startIndex = (currentPage - 1) * PAGE_LENGTH;
+		const endIndex = startIndex + 5;
+		setTotalPages(Math.ceil(searchData.length / PAGE_LENGTH));
+		setDisplayData(searchData.slice(startIndex, endIndex));
+	}, 25);
 	return (
 		<div className="flex flex-1 shrink-0 mb-2 justify-start flex-col lg">
 			<div className="relative lg:max-w-1/2 lg:min-w-2xl">
@@ -53,7 +85,14 @@ export default function FuzzySearch({ beers }: { beers: Beers[] }) {
 				/>
 			</div>
 			<div className="lg:max-w-1/2 lg:min-w-2xl">
-				<BeerCards beers={searchData}></BeerCards>
+				<BeerCards beers={displayData}></BeerCards>
+				<Pagination
+					className="place-self-center"
+					initialPage={1}
+					total={totalPages}
+					page={currentPage}
+					onChange={(page) => handlePagination(page)}
+				/>
 			</div>
 		</div>
 	);
