@@ -1,5 +1,5 @@
-import { BeerCard } from "../../ui/beerElements/beer-card";
-import { fetchBeer } from "../../api/external/beerAPI";
+import { BeerCard } from "../../../ui/beerElements/beer-card";
+import { fetchBeer } from "../../../api/external/beerAPI";
 import { beerParameters } from "@/app/lib/url-builder";
 /*
 Beer [beerName] page. This page is generated when you click on a beer and is to
@@ -15,9 +15,9 @@ export default async function Page({
 	let beer = undefined;
 	let stringBeerName = "";
 	if (beerName !== undefined) {
-		stringBeerName = beerName.replace(/%20/g, " ");
+		stringBeerName = decodeURI(beerName);
 		const query: beerParameters = {
-			name: stringBeerName.replace(/%20/g, " "),
+			name: stringBeerName,
 		};
 		beer = await fetchBeer(query);
 	}

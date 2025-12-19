@@ -25,8 +25,8 @@ export function ImageUpload({
 }) {
 	return (
 		<div className="flex flex-row place-items-center">
-			<p className="flex-1/6 pl-2 pr-2 w-fit align-middle">Upload File</p>
-			<div className="flex-5/6 mr-10 w-full h-full">
+			<p className="flex-1/7 pl-2 pr-2 w-fit align-middle">Upload File</p>
+			<div className="flex-5/7 mr-10 w-full h-full">
 				<FilePond
 					files={files}
 					onupdatefiles={(fileItems) => {
@@ -36,7 +36,7 @@ export function ImageUpload({
 					credits={false} // Turn of credits for now, sorry
 					server={null} // Disable the auto upload because we wish to do it ourselves
 					name="files" /* sets the file input name, it's filepond by default */
-					// Its ugly but this is how to style the content within the dropzone area
+					// Its ugly but this is how to style the content within the dropzone
 					labelIdle={`
                         <div class="flex flex-col">
                             <svg class="place-self-center" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-cloud-upload-icon lucide-cloud-upload"><path d="M12 13v8"/>

@@ -37,7 +37,7 @@ export default function BeerFormContent({
 	}
 	return (
 		<form method="post" onSubmit={handleSubmit}>
-			<div className="flex flex-col gap-4 jus">
+			<div className="flex flex-col gap-4 first:ml-4 last:mr-4">
 				<BeerName></BeerName>
 				<CompanyName></CompanyName>
 				<ImageUpload files={files} setFiles={setFiles}></ImageUpload>

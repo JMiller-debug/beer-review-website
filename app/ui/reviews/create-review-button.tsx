@@ -19,7 +19,7 @@ export default function CreateReview({
 	const [open, setOpen] = useState(false);
 	if (beerName === undefined) {
 		const params = useParams<{ beerName: string }>();
-		beerName = params.beerName?.replace(/%20/g, " ");
+		beerName = decodeURI(params.beerName);
 	}
 	return (
 		<div>
@@ -28,7 +28,7 @@ export default function CreateReview({
 					setOpen(true);
 					e.preventDefault();
 				}}
-				className="rounded-md bg-blue-500 hover:bg-blue-700 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white cursor-pointer pointer-events-auto enabled"
+				className="rounded-md bg-blue-500 hover:bg-blue-700 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white cursor-pointer pointer-events-auto enabled mb-2"
 			>
 				Create Review
 			</Button>

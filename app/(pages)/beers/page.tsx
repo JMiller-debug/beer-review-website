@@ -1,7 +1,7 @@
 import FuzzySearch from "@/app/ui/fuzzy-search";
 import { fetchBeers } from "@/app/api/external/beerAPI";
-import { beerParameters } from "../lib/url-builder";
-import CreateBeer from "../ui/beers/create-beer-button";
+import { beerParameters } from "../../lib/url-builder";
+import CreateBeer from "../../ui/beers/create-beer-button";
 /* 
 Beers page that allows you to search for Beers using a fuzzy search
 Currenly shows a list of all beers.

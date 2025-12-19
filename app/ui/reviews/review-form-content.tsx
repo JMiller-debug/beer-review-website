@@ -35,7 +35,7 @@ export default function ReviewFormContent({
 	}
 	return (
 		<form method="post" onSubmit={handleSubmit}>
-			<div className="flex flex-col gap-4 jus">
+			<div className="flex flex-col gap-4 first:ml-4 last:mr-10">
 				<UserName userName={"Ameretto Miller"}></UserName>
 				<BeerName beerName={beerName}></BeerName>
 				<BeerScore></BeerScore>

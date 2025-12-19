@@ -16,7 +16,7 @@ export function ReviewCard({
 	if (reviews !== undefined) {
 		return (
 			<div className="border-t-2 border-gray-400">
-				<div className="text-2xl font-bold">Reviews</div>
+				<div className="text-2xl font-bold my-2">Reviews</div>
 				<div className="flex flex-col md:max-w-full">
 					{reviews.map((review, i) => (
 						<div

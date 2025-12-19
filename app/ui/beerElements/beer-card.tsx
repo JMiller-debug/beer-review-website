@@ -72,7 +72,7 @@ export function BeerCard({
 							<p className="text-sm font-medium md:text-base">
 								{beer.score.toFixed(1)}/10
 							</p>
-							<div className="flex-none relative h-full">
+							<div className="box-border flex-none relative">
 								<Image
 									loader={imageLoader}
 									src={imageUrl ? imageUrl : fallBackBeer}
@@ -83,7 +83,7 @@ export function BeerCard({
 										(event.currentTarget as HTMLImageElement).srcset =
 											fallBackBeer;
 									}}
-									className={`aspect-square object-scale-down`}
+									className={`aspect-square object-scale-down py-2`}
 								></Image>
 							</div>
 						</div>

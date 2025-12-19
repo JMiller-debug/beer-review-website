@@ -10,14 +10,14 @@ Currently disabled as it just shows what beer they are creating the review for.
 export function BeerName({ beerName }: { beerName: string | undefined }) {
 	return (
 		<div className="flex flex-row place-items-center">
-			<p className="flex-1/6 pl-2 pr-2 align-middle">Beer</p>
+			<p className="flex-1/7 pl-2  align-middle">Beer</p>
 			<label htmlFor="beer_name" className="sr-only">
 				Beer
 			</label>
 			<input
 				name="beer_name"
 				className={clsx(
-					"flex-5/6 w-full mr-10 block rounded-md border border-gray-200 py-[9px] pl-2 text-sm outline-2 placeholder:text-gray-500",
+					"flex-5/7 w-full block rounded-md border border-gray-200 py-[9px] pl-2 text-sm outline-2 placeholder:text-gray-500",
 					{
 						"disabled opacity-75 pointer-events-none bg-gray-400/20":
 							beerName !== undefined,
@@ -33,14 +33,14 @@ export function BeerName({ beerName }: { beerName: string | undefined }) {
 export function UserName({ userName }: { userName: string | undefined }) {
 	return (
 		<div className="flex flex-row place-items-center">
-			<p className="flex-1/6 pl-2 pr-2 align-middle">User</p>
+			<p className="flex-1/7 pl-2 align-middle">User</p>
 			<label htmlFor="username" className="sr-only">
 				User
 			</label>
 			<input
 				name="username"
 				className={clsx(
-					"flex-5/6 w-full mr-10 block rounded-md border border-gray-200 py-[9px] pl-2 text-sm outline-2 placeholder:text-gray-500",
+					"flex-5/7 w-full block rounded-md border border-gray-200 py-[9px] pl-2 text-sm outline-2 placeholder:text-gray-500",
 					{
 						"disabled opacity-75 pointer-events-none bg-gray-400/20":
 							userName !== undefined,
@@ -61,8 +61,8 @@ export function BeerReview() {
 	const [count, setCount] = useState(0);
 	return (
 		<div className="flex flex-row place-items-center">
-			<p className="flex-1/6 pl-2 pr-2 align-middle">Review</p>
-			<div className="flex-5/6 w-full mr-10 flex flex-col">
+			<p className="flex-1/7 pl-2 align-middle">Review</p>
+			<div className="flex-5/7 w-full flex flex-col">
 				<label htmlFor="comment" className="sr-only">
 					Review
 				</label>
@@ -93,23 +93,23 @@ export function BeerScore() {
 		if (isNaN(Number(value))) return;
 
 		setValue(value);
-		setInputValue(value.toString());
+		setInputValue(value);
 	};
 
 	return (
-		<div className="flex flex-row place-items-center">
+		<div className="flex flex-row ">
 			<Slider
 				classNames={{
 					filler: "bg-sky-500",
 					base: "flex-row",
-					trackWrapper: "flex-5/6 mr-10",
+					trackWrapper: "flex-5/7",
 					// Below is necessary to keep consistent styling for the background
 					// Was very hard to actaully find this out
 					track:
 						"bg-gray-300/50 data-[fill-start=true]:border-l-sky-500 data-[fill-end=false]:border-r-gray-300/0",
-					label: "text-medium",
-					value: "text-medium",
-					labelWrapper: "flex flex-col flex-1/6 pl-2 pr-2 !place-items-start",
+					label: "text-medium place-self-start",
+					value: "text-medium place-self-start pl-3",
+					labelWrapper: "flex flex-col flex-1/7 pl-2  ",
 				}}
 				marks={[
 					{
@@ -139,6 +139,7 @@ export function BeerScore() {
 				minValue={0}
 				// eslint-disable-next-line @typescript-eslint/no-unused-vars
 				size="md"
+				formatOptions={{ minimumSignificantDigits: 2 }}
 				step={0.1}
 				value={value}
 				name="score"
